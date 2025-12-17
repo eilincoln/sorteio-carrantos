@@ -71,7 +71,7 @@ h3 {
 /* ---------- Inputs ---------- */
 textarea,
 input {
-  width: 100%;
+  width: 96%;
   background: #020617;
   color: var(--text-main);
   border: 1px solid var(--border);
@@ -109,17 +109,6 @@ input:focus {
 
 .controle input {
   max-width: 100px;
-}
-
-/* ---------- Informações ---------- */
-.info {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-#totalNomes {
-  font-weight: 600;
 }
 
 /* ---------- Botões ---------- */
