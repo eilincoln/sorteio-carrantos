@@ -5,13 +5,6 @@ function sortear() {
   const texto = document.getElementById("nomes").value;
   const qtd = parseInt(document.getElementById("qtd").value);
 
-  const listaSorteados = document.getElementById("listaSorteados");
-  const listaNaoSorteados = document.getElementById("listaNaoSorteados");
-
-  // limpar listas
-  listaSorteados.innerHTML = "";
-  listaNaoSorteados.innerHTML = "";
-
   let nomes = texto
     .split("\n")
     .map((n) => n.trim())
@@ -35,25 +28,6 @@ function sortear() {
   document.getElementById("resultado").textContent = vencedores
     .map((n, i) => `${i + 1}. ${n}`)
     .join("\n");
-
-  // ===== COMPARAÇÃO =====
-  const setVencedores = new Set(vencedores);
-
-  vencedores.forEach((nome) => {
-    const li = document.createElement("li");
-    li.textContent = nome;
-    li.className = "ok-item";
-    listaSorteados.appendChild(li);
-  });
-
-  nomes.forEach((nome) => {
-    if (!setVencedores.has(nome)) {
-      const li = document.createElement("li");
-      li.textContent = nome;
-      li.className = "no-item";
-      listaNaoSorteados.appendChild(li);
-    }
-  });
 
   // gerar ID do sorteio
   ultimoId = gerarIdSorteio();
