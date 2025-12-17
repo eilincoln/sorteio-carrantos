@@ -2,9 +2,11 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sorteador Grupo Carrantos</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
     <div class="container">
       <div class="header">
@@ -27,9 +29,13 @@
       </div>
 
       <div class="botoes">
-        <button class="btn-primary">Sortear</button>
-        <button class="btn-secondary">Exportar CSV</button>
-        <button class="btn-secondary">Exportar PDF</button>
+        <button class="btn-primary" onclick="sortear()">Sortear</button>
+        <button class="btn-secondary" onclick="exportarCSV()">
+          Exportar CSV
+        </button>
+        <button class="btn-secondary" onclick="exportarPDF()">
+          Exportar PDF
+        </button>
       </div>
 
       <pre id="resultado"></pre>
