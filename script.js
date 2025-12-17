@@ -5,27 +5,55 @@ function sortear() {
   const texto = document.getElementById("nomes").value;
   const qtd = parseInt(document.getElementById("qtd").value);
 
+  const listaSorteados = document.getElementById("listaSorteados");
+  const listaNaoSorteados = document.getElementById("listaNaoSorteados");
+
+  // limpar listas
+  listaSorteados.innerHTML = "";
+  listaNaoSorteados.innerHTML = "";
+
   let nomes = texto
     .split("\n")
     .map((n) => n.trim())
     .filter((n) => n !== "");
 
-  if (qtd > nomes.length) {
-    alert("Quantidade maior que o número de nomes!");
+  if (qtd > nomes.length || nomes.length === 0) {
+    alert("Quantidade inválida de nomes!");
     return;
   }
 
-  // Embaralhamento justo
+  // Embaralhamento justo (Fisher-Yates)
   for (let i = nomes.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [nomes[i], nomes[j]] = [nomes[j], nomes[i]];
   }
 
+  // definir vencedores
   vencedores = nomes.slice(0, qtd);
 
+  // mostrar resultado simples
   document.getElementById("resultado").textContent = vencedores
     .map((n, i) => `${i + 1}. ${n}`)
     .join("\n");
+
+  // ===== COMPARAÇÃO =====
+  const setVencedores = new Set(vencedores);
+
+  vencedores.forEach((nome) => {
+    const li = document.createElement("li");
+    li.textContent = nome;
+    li.className = "ok-item";
+    listaSorteados.appendChild(li);
+  });
+
+  nomes.forEach((nome) => {
+    if (!setVencedores.has(nome)) {
+      const li = document.createElement("li");
+      li.textContent = nome;
+      li.className = "no-item";
+      listaNaoSorteados.appendChild(li);
+    }
+  });
 
   // gerar ID do sorteio
   ultimoId = gerarIdSorteio();
