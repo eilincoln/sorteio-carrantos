@@ -9,7 +9,13 @@
     <div class="container">
       <h1>Sorteador de Nomes - Grupo Carrantos</h1>
 
-      <textarea id="nomes" placeholder="Um nome por linha"></textarea>
+      <textarea
+        id="nomes"
+        placeholder="Um nome por linha"
+        oninput="contarNomes()"
+      ></textarea>
+
+      <div class="info">Total de nomes: <span id="totalNomes">0</span></div>
 
       <div class="controle">
         <label>Quantidade de sorteados:</label>

@@ -79,3 +79,14 @@ pre {
   margin-bottom: 10px;
   font-size: 14px;
 }
+
+.info {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+#totalNomes {
+  color: #22c55e;
+  font-weight: bold;
+}

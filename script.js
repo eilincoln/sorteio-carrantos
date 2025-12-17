@@ -91,3 +91,30 @@ function agora() {
   const d = new Date();
   return d.toLocaleString("pt-BR");
 }
+
+function contarNomes() {
+  const texto = document.getElementById("nomes").value;
+
+  const total = texto
+    .split("\n")
+    .map((n) => n.trim())
+    .filter((n) => n !== "").length;
+
+  document.getElementById("totalNomes").textContent = total;
+}
+
+function contarNomes() {
+  const texto = document.getElementById("nomes").value;
+
+  const total = texto
+    .split("\n")
+    .map((n) => n.trim())
+    .filter((n) => n !== "").length;
+
+  const span = document.getElementById("totalNomes");
+  span.textContent = total;
+
+  if (total === 0) span.style.color = "#ef4444";
+  else if (total < 10) span.style.color = "#facc15";
+  else span.style.color = "#22c55e";
+}
