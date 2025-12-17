@@ -29,6 +29,8 @@ function sortear() {
     .map((n, i) => `${i + 1}. ${n}`)
     .join("\n");
 
+  soltarConfetes();
+
   // gerar ID do sorteio
   ultimoId = gerarIdSorteio();
 
@@ -190,4 +192,22 @@ function exportarPDF() {
   });
 
   doc.save("resultado_sorteio.pdf");
+}
+
+function soltarConfetes() {
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 90,
+      spread: 70,
+      origin: { x: Math.random(), y: 1 },
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 }
