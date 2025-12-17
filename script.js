@@ -61,7 +61,9 @@ function sortear() {
   const registro = {
     id: ultimoId,
     dataHora: agora(),
-    quantidade: qtd,
+    totalNomes: nomes.length,
+    quantidadeSorteados: vencedores.length,
+    quantidadeNaoSorteados: nomes.length - vencedores.length,
     vencedores: vencedores,
   };
 
@@ -78,10 +80,19 @@ function exportarCSV() {
     return;
   }
 
-  let csv = "ID do Sorteio,Posição,Nome\n";
+  const texto = document.getElementById("nomes").value;
+  const nomes = texto
+    .split("\n")
+    .map((n) => n.trim())
+    .filter((n) => n !== "");
 
-  vencedores.forEach((nome, i) => {
-    csv += `${ultimoId},${i + 1},"${nome}"\n`;
+  const setVencedores = new Set(vencedores);
+
+  let csv = "ID do Sorteio,Nome,Status\n";
+
+  nomes.forEach((nome) => {
+    const status = setVencedores.has(nome) ? "SORTEADO" : "NAO SORTEADO";
+    csv += `${ultimoId},"${nome}",${status}\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv" });
@@ -89,7 +100,7 @@ function exportarCSV() {
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "resultado_sorteio.csv";
+  a.download = "resultado_sorteio_completo.csv";
   a.click();
 
   URL.revokeObjectURL(url);
@@ -106,11 +117,13 @@ function carregarHistorico() {
     bloco.className = "historico-item";
 
     bloco.innerHTML = `
-  <strong>ID:</strong> ${item.id}<br>
-  <strong>Data:</strong> ${item.dataHora}<br>
-  Quantidade: ${item.quantidade}<br>
-  ${item.vencedores.join(", ")}
-  `;
+    <strong>ID:</strong> ${item.id}<br>
+    <strong>Data:</strong> ${item.dataHora}<br>
+    Total de participantes: ${item.totalNomes}<br>
+    Sorteados: ${item.quantidadeSorteados}<br>
+    Não sorteados: ${item.quantidadeNaoSorteados}<br>
+    <strong>Vencedores:</strong> ${item.vencedores.join(", ")}
+`;
 
     historicoDiv.appendChild(bloco);
   });
@@ -155,26 +168,58 @@ function exportarPDF() {
     return;
   }
 
+  const texto = document.getElementById("nomes").value;
+  const nomes = texto
+    .split("\n")
+    .map((n) => n.trim())
+    .filter((n) => n !== "");
+
+  const setVencedores = new Set(vencedores);
+  const naoSorteados = nomes.filter((n) => !setVencedores.has(n));
+
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
   doc.setFontSize(14);
-  doc.text("Resultado do Sorteio", 20, 20);
+  doc.text("Resultado do Sorteio – Grupo Carrantos", 20, 20);
 
   doc.setFontSize(10);
   doc.text(`ID do Sorteio: ${ultimoId}`, 20, 30);
   doc.text(`Data e Hora: ${agora()}`, 20, 36);
+  doc.text(`Total de participantes: ${nomes.length}`, 20, 42);
+  doc.text(`Sorteados: ${vencedores.length}`, 20, 48);
+  doc.text(`Não sorteados: ${naoSorteados.length}`, 20, 54);
 
-  let y = 50;
+  let y = 66;
+
+  doc.setFontSize(12);
+  doc.text("SORTEADOS", 20, y);
+  y += 8;
+
+  doc.setFontSize(10);
   vencedores.forEach((nome, i) => {
     doc.text(`${i + 1}. ${nome}`, 20, y);
     y += 6;
-
     if (y > 280) {
       doc.addPage();
       y = 20;
     }
   });
 
-  doc.save("resultado_sorteio.pdf");
+  y += 10;
+  doc.setFontSize(12);
+  doc.text("NÃO SORTEADOS", 20, y);
+  y += 8;
+
+  doc.setFontSize(10);
+  naoSorteados.forEach((nome, i) => {
+    doc.text(`${i + 1}. ${nome}`, 20, y);
+    y += 6;
+    if (y > 280) {
+      doc.addPage();
+      y = 20;
+    }
+  });
+
+  doc.save("resultado_sorteio_completo.pdf");
 }
