@@ -78,27 +78,18 @@ function exportarCSV() {
     return;
   }
 
-  const texto = document.getElementById("nomes").value;
-  const nomes = texto
-    .split("\n")
-    .map((n) => n.trim())
-    .filter((n) => n !== "");
+  let csv = "Nome\n";
 
-  const setVencedores = new Set(vencedores);
-
-  let csv = "ID do Sorteio,Nome,Status\n";
-
-  nomes.forEach((nome) => {
-    const status = setVencedores.has(nome) ? "SORTEADO" : "NAO SORTEADO";
-    csv += `${ultimoId},"${nome}",${status}\n`;
+  vencedores.forEach((nome) => {
+    csv += `"${nome}"\n`;
   });
 
-  const blob = new Blob([csv], { type: "text/csv" });
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "resultado_sorteio_completo.csv";
+  a.download = "ganhadores_sorteio.csv";
   a.click();
 
   URL.revokeObjectURL(url);
