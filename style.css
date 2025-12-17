@@ -191,12 +191,6 @@ pre {
   }
 }
 
-.comparacao {
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
-}
-
 .coluna {
   flex: 1;
   background: #020617;
@@ -224,14 +218,6 @@ pre {
   border-radius: 6px;
   font-size: 13px;
   margin-bottom: 4px;
-}
-
-.ok {
-  color: var(--success);
-}
-
-.no {
-  color: var(--danger);
 }
 
 .btn-vermais {
