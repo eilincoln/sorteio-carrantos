@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sorteador Profissional</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sorteador de Nomes</h1>
+
+      <textarea id="nomes" placeholder="Um nome por linha"></textarea>
+
+      <div class="controle">
+        <label>Quantidade de sorteados:</label>
+        <input type="number" id="qtd" min="1" value="1" />
+      </div>
+
+      <button onclick="sortear()">Sortear</button>
+      <button onclick="exportar()">Exportar</button>
+
+      <pre id="resultado"></pre>
+
+      <h3>Histórico de Sorteios</h3>
+      <div id="historico"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
