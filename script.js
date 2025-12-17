@@ -61,9 +61,7 @@ function sortear() {
   const registro = {
     id: ultimoId,
     dataHora: agora(),
-    totalNomes: nomes.length,
     quantidadeSorteados: vencedores.length,
-    quantidadeNaoSorteados: nomes.length - vencedores.length,
     vencedores: vencedores,
   };
 
@@ -121,32 +119,30 @@ function carregarHistorico() {
     const vencedoresOcultos = item.vencedores.slice(limite);
 
     bloco.innerHTML = `
-    <strong>ID:</strong> ${item.id}<br>
-    <strong>Data:</strong> ${item.dataHora}<br>
-    Total de participantes: ${item.totalNomes}<br>
-    Sorteados: ${item.quantidadeSorteados}<br>
-    Não sorteados: ${item.quantidadeNaoSorteados}<br><br>
+  <strong>ID:</strong> ${item.id}<br>
+  <strong>Data:</strong> ${item.dataHora}<br>
+  <strong>Quantidade de ganhadores:</strong> ${item.quantidadeSorteados}<br><br>
 
-    <strong>Vencedores:</strong>
-    <span class="vencedores-curtos">
-      ${vencedoresVisiveis.join(", ")}
-      ${
-        vencedoresOcultos.length > 0
-          ? ` <em>(+${vencedoresOcultos.length})</em>`
-          : ""
-      }
-    </span>
-
+  <strong>Ganhadores:</strong>
+  <span class="vencedores-curtos">
+    ${vencedoresVisiveis.join(", ")}
     ${
       vencedoresOcultos.length > 0
-        ? `<span class="vencedores-completos" style="display:none;">
-             ${item.vencedores.join(", ")}
-           </span>
-           <br>
-           <button class="btn-vermais">Ver mais</button>`
+        ? ` <em>(+${vencedoresOcultos.length})</em>`
         : ""
     }
-  `;
+  </span>
+
+  ${
+    vencedoresOcultos.length > 0
+      ? `<span class="vencedores-completos" style="display:none;">
+           ${item.vencedores.join(", ")}
+         </span>
+         <br>
+         <button class="btn-vermais">Ver mais</button>`
+      : ""
+  }
+`;
 
     const btn = bloco.querySelector(".btn-vermais");
 
@@ -225,40 +221,24 @@ function exportarPDF() {
   doc.setFontSize(10);
   doc.text(`ID do Sorteio: ${ultimoId}`, 20, 30);
   doc.text(`Data e Hora: ${agora()}`, 20, 36);
-  doc.text(`Total de participantes: ${nomes.length}`, 20, 42);
-  doc.text(`Sorteados: ${vencedores.length}`, 20, 48);
-  doc.text(`Não sorteados: ${naoSorteados.length}`, 20, 54);
+  doc.text(`Quantidade de ganhadores: ${vencedores.length}`, 20, 42);
 
-  let y = 66;
+  let y = 56;
 
   doc.setFontSize(12);
-  doc.text("SORTEADOS", 20, y);
+  doc.text("GANHADORES", 20, y);
   y += 8;
 
   doc.setFontSize(10);
   vencedores.forEach((nome, i) => {
     doc.text(`${i + 1}. ${nome}`, 20, y);
     y += 6;
+
     if (y > 280) {
       doc.addPage();
       y = 20;
     }
   });
 
-  y += 10;
-  doc.setFontSize(12);
-  doc.text("NÃO SORTEADOS", 20, y);
-  y += 8;
-
-  doc.setFontSize(10);
-  naoSorteados.forEach((nome, i) => {
-    doc.text(`${i + 1}. ${nome}`, 20, y);
-    y += 6;
-    if (y > 280) {
-      doc.addPage();
-      y = 20;
-    }
-  });
-
-  doc.save("resultado_sorteio_completo.pdf");
+  doc.save("resultado_sorteio.pdf");
 }
