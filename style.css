@@ -259,3 +259,22 @@ pre {
     flex-direction: column;
   }
 }
+
+.btn-vermais {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-vermais:hover {
+  text-decoration: underline;
+}
+
+.vencedores-curtos em {
+  color: var(--text-muted);
+  font-style: normal;
+}

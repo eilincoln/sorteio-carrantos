@@ -116,14 +116,53 @@ function carregarHistorico() {
     const bloco = document.createElement("div");
     bloco.className = "historico-item";
 
+    const limite = 3;
+    const vencedoresVisiveis = item.vencedores.slice(0, limite);
+    const vencedoresOcultos = item.vencedores.slice(limite);
+
     bloco.innerHTML = `
     <strong>ID:</strong> ${item.id}<br>
     <strong>Data:</strong> ${item.dataHora}<br>
     Total de participantes: ${item.totalNomes}<br>
     Sorteados: ${item.quantidadeSorteados}<br>
-    Não sorteados: ${item.quantidadeNaoSorteados}<br>
-    <strong>Vencedores:</strong> ${item.vencedores.join(", ")}
-`;
+    Não sorteados: ${item.quantidadeNaoSorteados}<br><br>
+
+    <strong>Vencedores:</strong>
+    <span class="vencedores-curtos">
+      ${vencedoresVisiveis.join(", ")}
+      ${
+        vencedoresOcultos.length > 0
+          ? ` <em>(+${vencedoresOcultos.length})</em>`
+          : ""
+      }
+    </span>
+
+    ${
+      vencedoresOcultos.length > 0
+        ? `<span class="vencedores-completos" style="display:none;">
+             ${item.vencedores.join(", ")}
+           </span>
+           <br>
+           <button class="btn-vermais">Ver mais</button>`
+        : ""
+    }
+  `;
+
+    const btn = bloco.querySelector(".btn-vermais");
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const curto = bloco.querySelector(".vencedores-curtos");
+        const completo = bloco.querySelector(".vencedores-completos");
+
+        const aberto = completo.style.display === "inline";
+
+        completo.style.display = aberto ? "none" : "inline";
+        curto.style.display = aberto ? "inline" : "none";
+
+        btn.textContent = aberto ? "Ver mais" : "Ver menos";
+      });
+    }
 
     historicoDiv.appendChild(bloco);
   });
