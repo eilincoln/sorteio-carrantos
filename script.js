@@ -75,7 +75,7 @@ function carregarHistorico() {
     bloco.className = "historico-item";
 
     bloco.innerHTML = `
-      <strong>${item.dataHora}</strong><br>
+      <strong>Sorteio em:</strong> ${item.dataHora}
       Quantidade: ${item.quantidade}<br>
       ${item.vencedores.join(", ")}
     `;
@@ -86,3 +86,8 @@ function carregarHistorico() {
 
 // carregar ao abrir a página
 carregarHistorico();
+
+function agora() {
+  const d = new Date();
+  return d.toLocaleString("pt-BR");
+}
